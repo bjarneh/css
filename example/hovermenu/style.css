@@ -1,0 +1,45 @@
+body {
+    background-color: #150517;
+}
+
+/* special dropdown menu in css */
+div.nav {
+    position: absolute;
+    top: 30px;
+    right: 25px;
+    background-color: red;
+    width: 200px;
+    z-index: 320;
+}
+div.nav li {
+    display: block;
+    margin-left: 0px;
+}
+div.nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+div.nav a {
+    display: block;
+    text-decoration: none;
+    font-size: 17px;
+    color: #ffffff;
+    background-color: #150517;
+    padding: 5px 10px 5px 10px;
+    border: 1px solid #ffffff;
+}
+
+div.nav a:hover {
+    color: #000000;
+    background-color: #00ff00;
+}
+
+div.nav > ul > li > ul {
+    display: none;
+}
+div.nav > ul > li:hover > ul {
+    display: block;
+}
+
+
