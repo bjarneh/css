@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Pure CSS Scrollable Table with Fixed Header</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<script src="jquery-latest.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+
+    /* Just add some extra rows for effect on large table */
+    var tbody = $("tbody.scrollContent");
+    var last  = $("tbody.scrollContent tr:last-child");
+
+    for(var i = 0; i < 700; i++){
+        tbody.append(last.clone());
+    }
+    tbody.append("<tr><td>A</td><td>B</td><td>C</td>/tr>");
+
+
+
+    
+    /* We have to resize table when window resizes */
+    function windowResize(){
+
+        var winHeight = $(window).height();
+        var maxHeight = winHeight - 150;
+
+        $("div.tableContainer table").height( maxHeight );
+        $("div.tableContainer").height( maxHeight + 4);
+        $("tbody.scrollContent").height( (maxHeight - 23) );
+    }
+
+    $(window).on('resize', function(ev){
+        windowResize();
+    });
+
+
+    /* to get the initial table size ok */
+    windowResize();
+
+});
+-->
+</script>
+<style type="text/css">
+<!--
+/* Terence Ordona, portal[AT]imaputz[DOT]com         */
+/* http://creativecommons.org/licenses/by-sa/2.0/    */
+
+div.tableContainer {
+	clear: both;
+	border: 1px solid #DDD; /*#963*/
+    padding: 0;
+	height: 485px;
+	overflow: hidden;
+	width: 740px;
+
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+}
+
+/* define width of table. Opera 5.x/6.x and MacIE 5.x */
+div.tableContainer table {
+	float: none;
+	margin: 0;
+    padding: 0;
+	width: 740px
+}
+
+thead.fixedHeader tr {
+	display: block;
+}
+
+thead.fixedHeader th {
+	background: #C96;
+}
+
+thead.fixedHeader th:hover {
+    background: #C99;
+    cursor: pointer;
+}
+
+tbody.scrollContent {
+	display: block;
+	height: 462px;
+	overflow: auto;
+	width: 100%
+}
+
+tbody.scrollContent tr:nth-child(odd) td {
+	border-right: 1px solid #CCC;
+	border-top: 1px solid #DDD;
+    background-color: lightyellow;
+	padding: 2px 3px 3px 4px
+}
+
+tbody.scrollContent tr:nth-child(even) td {
+	border-right: 1px solid #CCC;
+	border-top: 1px solid #DDD;
+	padding: 2px 3px 3px 4px;
+}
+
+/* http://www.w3.org/TR/REC-CSS2/selector.html#adjacent-selectors    */
+thead.fixedHeader th {
+	width: 200px;
+}
+
+thead.fixedHeader th + th {
+	width: 240px
+}
+
+thead.fixedHeader th + th + th {
+	border-right: none;
+	padding: 4px 4px 4px 3px;
+	width: 316px;
+}
+
+tbody.scrollContent td {
+	width: 200px
+}
+
+tbody.scrollContent td + td {
+	width: 240px
+}
+
+tbody.scrollContent td + td + td {
+	border-right: none;
+	padding: 4px 4px 4px 3px;
+	width: 300px
+}
+
+-->
+</style>
+</head><body>
+
+<h1> Pure CSS Scrollable Table with Fixed Header</h1>
+
+<div>
+    A somewhat modified version of the fixed header table found here:
+    <a href='http://www.imaputz.com/cssStuff/bulletVersion.html'>bulletproof</a>
+</div>
+
+
+<form id="sampleForm" action="bulletVersion.html" method="post">
+<div id="tableContainer" class="tableContainer">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" class="scrollTable">
+<thead class="fixedHeader" id="fixedHeader">
+	<tr>
+		<th>Header 1</th>
+		<th>Header 2</th>
+		<th>Header 3</th>
+	</tr>
+</thead>
+<tbody class="scrollContent">
+	<tr>
+		<td>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla vitae wisi. Nulla euismod aliquet tellus.</td>
+		<td>In sit amet enim. Praesent vulputate tortor nec ante. Morbi sollicitudin est non neque.</td>
+		<td>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos.</td>
+	</tr>
+	<tr>
+		<td>Cell Content 1</td>
+		<td>Cell Content 2</td>
+		<td><select name="sampleSelect1" id="sampleSelect1"><option>Option 1</option><option>Option 2</option><option>Option 3</option><option>Option 4</option><option>Option 5</option></select></td>
+	</tr>
+	<tr>
+		<td>Cell Content 1</td>
+		<td>Cell Content 2</td>
+		<td><select name="sampleSelect2" id="sampleSelect2" size="5" multiple="multiple"><option>Option 1</option><option>Option 2</option><option>Option 3</option><option>Option 4</option><option>Option 5</option></select></td>
+	</tr>
+	<tr>
+		<td>More Cell Content 1</td>
+		<td>More Cell Content 2</td>
+		<td><input type="text" name="sampleText" id="sampleText" value="This is a sample Text form element" /></td>
+	</tr>
+	<tr>
+		<td>Even More Cell Content 1</td>
+		<td>Even More Cell Content 2</td>
+		<td><input type="password" name="samplePassword" id="samplePassword" value="password" /></td>
+	</tr>
+	<tr>
+		<td>And Repeat 1</td>
+		<td>And Repeat 2</td>
+		<td><input type="submit" name="sampleSubmit" id="sampleSubmit" value="Sample Submit Button" /></td>
+	</tr>
+	<tr>
+		<td>Cell Content 1</td>
+		<td>Cell Content 2</td>
+		<td><input type="reset" name="sampleReset" id="sampleReset" value="Sample Reset Button" /></td>
+	</tr>
+	<tr>
+		<td>More Cell Content 1</td>
+		<td>More Cell Content 2</td>
+		<td><input type="button" name="sampleButton" id="sampleButton" value="Sample Button Element" /></td>
+	</tr>
+	<tr>
+		<td>Even More Cell Content 1</td>
+		<td>Even More Cell Content 2</td>
+		<td><input type="checkbox" name="sampleCheckbox" id="sampleCheckboxA" value="sampleCheckboxA" /> <label for="sampleCheckboxA">Sample Checkbox A</label></td>
+	</tr>
+	<tr>
+		<td>And Repeat 1</td>
+		<td>And Repeat 2</td>
+		<td><input type="checkbox" name="sampleCheckbox" id="sampleCheckboxB" value="sampleCheckboxB" /> <label for="sampleCheckboxB">Sample Checkbox B</label></td>
+	</tr>
+	<tr>
+		<td>Cell Content 1</td>
+		<td>Cell Content 2</td>
+		<td><input type="radio" name="sampleRadio" id="sampleRadioA" value="sampleRadioA" /> <label for="sampleRadioA">Sample Radio A</label></td>
+	</tr>
+	<tr>
+		<td>More Cell Content 1</td>
+		<td>More Cell Content 2</td>
+		<td><input type="radio" name="sampleRadio" id="sampleRadioB" value="sampleRadioB" /> <label for="sampleRadioB">Sample Radio B</label></td>
+	</tr>
+	<tr>
+		<td>Even More Cell Content 1</td>
+		<td>Even More Cell Content 2</td>
+		<td><select name="sampleSelect3" id="sampleSelect3"><option>Option 1</option><option>Option 2</option><option>Option 3</option><option>Option 4</option><option>Option 5</option></select></td>
+	</tr>
+	<tr>
+		<td>And Repeat 1</td>
+		<td>And Repeat 2</td>
+		<td><select name="sampleSelect4" id="sampleSelect4" size="5" multiple="multiple"><option>Option 1</option><option>Option 2</option><option>Option 3</option><option>Option 4</option><option>Option 5</option></select></td>
+	</tr>
+	<tr>
+		<td>Cell Content 1</td>
+		<td>Cell Content 2</td>
+		<td><textarea cols="20" rows="5" name="sampleTextarea" id="sampleTextarea">Cell Content 3</textarea></td>
+	</tr>
+	<tr>
+		<td>More Cell Content 1</td>
+		<td>More Cell Content 2</td>
+		<td>More Cell Content 3</td>
+	</tr>
+	<tr>
+		<td>Even More Cell Content 1</td>
+		<td>Even More Cell Content 2</td>
+		<td>Even More Cell Content 3</td>
+	</tr>
+	<tr>
+		<td>And Repeat 1</td>
+		<td>And Repeat 2</td>
+		<td>And Repeat 3</td>
+	</tr>
+	<tr>
+		<td>Cell Content 1</td>
+		<td>Cell Content 2</td>
+		<td><select name="sampleSelect5" id="sampleSelect5"><option>Option 1</option><option>Option 2</option><option>Option 3</option><option>Option 4</option><option>Option 5</option></select></td>
+	</tr>
+	<tr>
+		<td>More Cell Content 1</td>
+		<td>More Cell Content 2</td>
+		<td><select name="sampleSelect6" id="sampleSelect6"><option>Option 1</option><option>Option 2</option><option>Option 3</option><option>Option 4</option><option>Option 5</option></select></td>
+	</tr>
+	<tr>
+		<td>Even More Cell Content 1</td>
+		<td>Even More Cell Content 2</td>
+		<td>Even More Cell Content 3</td>
+	</tr>
+	<tr>
+		<td>And Repeat 1</td>
+		<td>And Repeat 2</td>
+		<td>And Repeat 3</td>
+	</tr>
+	<tr>
+		<td>Cell Content 1</td>
+		<td>Cell Content 2</td>
+		<td>Cell Content 3</td>
+	</tr>
+	<tr>
+		<td>More Cell Content 1</td>
+		<td>More Cell Content 2</td>
+		<td>More Cell Content 3</td>
+	</tr>
+	<tr>
+		<td>Even More Cell Content 1</td>
+		<td>Even More Cell Content 2</td>
+		<td>Even More Cell Content 3</td>
+	</tr>
+	<tr>
+		<td>And Repeat 1</td>
+		<td>And Repeat 2</td>
+		<td>And Repeat 3</td>
+	</tr>
+	<tr>
+		<td>Cell Content 1</td>
+		<td>Cell Content 2</td>
+		<td>Cell Content 3</td>
+	</tr>
+	<tr>
+		<td>More Cell Content 1</td>
+		<td>More Cell Content 2</td>
+		<td>More Cell Content 3</td>
+	</tr>
+	<tr>
+		<td>Even More Cell Content 1</td>
+		<td>Even More Cell Content 2</td>
+		<td>Even More Cell Content 3</td>
+	</tr>
+	<tr>
+		<td>And Repeat 1</td>
+		<td>And Repeat 2</td>
+		<td>And Repeat 3</td>
+	</tr>
+	<tr>
+		<td>Cell Content 1</td>
+		<td>Cell Content 2</td>
+		<td>Cell Content 3</td>
+	</tr>
+	<tr>
+		<td>More Cell Content 1</td>
+		<td>More Cell Content 2</td>
+		<td>More Cell Content 3</td>
+	</tr>
+	<tr>
+		<td>Even More Cell Content 1</td>
+		<td>Even More Cell Content 2</td>
+		<td>Even More Cell Content 3</td>
+	</tr>
+	<tr>
+		<td>And Repeat 1</td>
+		<td>And Repeat 2</td>
+		<td>And Repeat 3</td>
+	</tr>
+	<tr>
+		<td>Cell Content 1</td>
+		<td>Cell Content 2</td>
+		<td>Cell Content 3</td>
+	</tr>
+	<tr>
+		<td>More Cell Content 1</td>
+		<td>More Cell Content 2</td>
+		<td>More Cell Content 3</td>
+	</tr>
+	<tr>
+		<td>Even More Cell Content 1</td>
+		<td>Even More Cell Content 2</td>
+		<td>Even More Cell Content 3</td>
+	</tr>
+	<tr>
+		<td>And Repeat 1</td>
+		<td>And Repeat 2</td>
+		<td>And Repeat 3</td>
+	</tr>
+	<tr>
+		<td>Cell Content 1</td>
+		<td>Cell Content 2</td>
+		<td>Cell Content 3</td>
+	</tr>
+	<tr>
+		<td>More Cell Content 1</td>
+		<td>More Cell Content 2</td>
+		<td>More Cell Content 3</td>
+	</tr>
+	<tr>
+		<td>Even More Cell Content 1</td>
+		<td>Even More Cell Content 2</td>
+		<td>Even More Cell Content 3</td>
+	</tr>
+	<tr>
+		<td>And Repeat 1</td>
+		<td>And Repeat 2</td>
+		<td>And Repeat 3</td>
+	</tr>
+	<tr>
+		<td>Cell Content 1</td>
+		<td>Cell Content 2</td>
+		<td>Cell Content 3</td>
+	</tr>
+	<tr>
+		<td>More Cell Content 1</td>
+		<td>More Cell Content 2</td>
+		<td>More Cell Content 3</td>
+	</tr>
+	<tr>
+		<td>Even More Cell Content 1</td>
+		<td>Even More Cell Content 2</td>
+		<td>Even More Cell Content 3</td>
+	</tr>
+	<tr>
+		<td>End of Cell Content 1</td>
+		<td>End of Cell Content 2</td>
+		<td>End of Cell Content 3</td>
+	</tr>
+</tbody>
+</table>
+</div>
+</form>
+
+</body>
+</html>
