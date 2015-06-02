@@ -18,8 +18,6 @@ $(document).ready(function(){
     tbody.append("<tr><td>A</td><td>B</td><td>C</td>/tr>");
 
 
-
-    
     /* We have to resize table when window resizes */
     function windowResize(){
 
@@ -49,23 +47,22 @@ $(document).ready(function(){
 
 div.tableContainer {
 	clear: both;
-	border: 1px solid #DDD; /*#963*/
+	border: 1px solid #DDD;
     padding: 0;
 	height: 485px;
 	overflow: hidden;
-	width: 740px;
+	width: 641px;
 
     position: fixed;
     bottom: 10px;
     right: 10px;
 }
 
-/* define width of table. Opera 5.x/6.x and MacIE 5.x */
 div.tableContainer table {
 	float: none;
 	margin: 0;
     padding: 0;
-	width: 740px
+	width: 640px
 }
 
 thead.fixedHeader tr {
@@ -83,7 +80,7 @@ thead.fixedHeader th:hover {
 
 tbody.scrollContent {
 	display: block;
-	height: 462px;
+	height: 462px; /* this will be modified by JS */
 	overflow: auto;
 	width: 100%
 }
@@ -92,42 +89,31 @@ tbody.scrollContent tr:nth-child(odd) td {
 	border-right: 1px solid #CCC;
 	border-top: 1px solid #DDD;
     background-color: lightyellow;
-	padding: 2px 3px 3px 4px
 }
 
 tbody.scrollContent tr:nth-child(even) td {
 	border-right: 1px solid #CCC;
 	border-top: 1px solid #DDD;
-	padding: 2px 3px 3px 4px;
 }
 
-/* http://www.w3.org/TR/REC-CSS2/selector.html#adjacent-selectors    */
-thead.fixedHeader th {
+div.tableContainer td,th {
 	width: 200px;
-}
-
-thead.fixedHeader th + th {
-	width: 240px
-}
-
-thead.fixedHeader th + th + th {
-	border-right: none;
 	padding: 4px 4px 4px 3px;
-	width: 316px;
+    margin: 0;
+    font-size: 14px;
 }
 
-tbody.scrollContent td {
-	width: 200px
+div.tableContainer th {
+	border-right: 1px solid #CCC;
+	border-top: 1px solid #DDD;
 }
 
-tbody.scrollContent td + td {
-	width: 240px
+div.tableContainer input, textarea, select {
+    max-width: 190px;
 }
 
-tbody.scrollContent td + td + td {
-	border-right: none;
-	padding: 4px 4px 4px 3px;
-	width: 300px
+div.tableContainer th:last-child {
+    width: 216px;
 }
 
 -->
