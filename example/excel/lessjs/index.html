@@ -24,9 +24,7 @@ $(document).ready(function(){
         var winHeight = $(window).height();
         var maxHeight = winHeight - 150;
 
-        $("div.tableContainer table").height( maxHeight );
-        $("div.tableContainer").height( maxHeight + 4);
-        $("tbody.scrollContent").height( (maxHeight - 23) );
+        $("tbody.scrollContent").height( maxHeight );
     }
 
     $(window).on('resize', function(ev){
@@ -49,7 +47,6 @@ div.tableContainer {
 	clear: both;
 	border: 1px solid #DDD;
     padding: 0;
-	height: 485px;
 	overflow: hidden;
 	width: 641px;
 
