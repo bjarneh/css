@@ -6,15 +6,45 @@
 <script type="text/javascript">
 <!--
 $(document).ready(function(){
+
+    // add some rows for effect
     var bot = $("#bottomTable");
     var row = $("#bottomTable tr");
-    for(var i = 0; i < 200; i++){
+
+    for(var i = 0; i < 250; i++){
         bot.append( row.clone() );
     }
-    var top = $("div.fixedTop");
+
+    var left = $("#leftTableScroller");
+        row  = $("#leftTableScroller tr");
+    for(var i = 0; i < 250; i++){
+        left.append( row.clone() );
+    }
+
+
+    // add header elements to our leftTable
+    /*
+    var leftRow = $("<tr></tr>");
+    var leftTbl = $("#leftTable"); leftTbl.append(leftRow);
+
+    $("#topTable tr>th:lt(3)").each(function(i, e){
+        leftRow.append($(e).clone());
+    });
+    */
+
+
+    // keep header in place on horizontal scroll
+    var top  = $("div.fixedTop");
+
+    var lft  = $("div.fixedLeftScroller");
+    var lftOrig = parseInt(lft.css('top').replace(/px/,''));
+
     $(window).on('scroll', function(ev){
         top.css('left', (window.pageXOffset * -1) + 'px');
+        lft.css('top', (window.pageYOffset * -1) + lftOrig + 'px');
     });
+
+
 });
 -->
 </script>
@@ -25,11 +55,18 @@ html, body {
     padding: 0;
 }
 
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* top row */
 div.fixedTop {
     position: fixed;
     top: 0px;
     left: 0px;
     width: 2120px;
+    z-index: 200;
 }
 
 div.fixedTop table {
@@ -41,10 +78,9 @@ div.fixedTop th {
     padding: 10px 0 10px 0;
     margin: 0;
     width: 100px;
-    border: 1px solid blue;
+    border: 1px solid lightblue;
     text-align: center;
     background-color: cyan;
-    z-index: 200;
 }
 
 div.fixedTop th:hover {
@@ -52,8 +88,67 @@ div.fixedTop th:hover {
     cursor: pointer;
 }
 
+
+/* left table */
+div.fixedLeftTop {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 400;
+}
+
+div.fixedLeftTop table {
+    border-spacing: 1;
+}
+
+div.fixedLeftTop th {
+    display: inline-block;
+    padding: 10px 0 10px 0;
+    margin: 0;
+    width: 100px;
+    border: 1px solid lightblue;
+    text-align: center;
+    background-color: cyan;
+}
+
+
+div.fixedLeftTop th:hover {
+    background-color: #c99;
+    cursor: pointer;
+}
+
+/* horizontally fixed table rows */
+div.fixedLeftScroller {
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    top: 40px;
+    left: 0;
+    z-index: 200;
+}
+
+div.fixedLeftScroller table {
+    padding: 0;
+    margin: 0;
+    display: block;
+}
+
+div.fixedLeftScroller td {
+    margin: 0;
+    width: 100px;
+    padding: 10px 0 10px 0;
+    border: 1px solid lightblue;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inline-block;
+    background-color: lightyellow;
+}
+
+
+/* the actual table */
 div.bottomScroller {
-    margin: 41px 0 0 0;
+    margin: 40px 0 0 0;
     padding: 0;
     width: 100%;
 }
@@ -69,7 +164,7 @@ div.bottomScroller td {
     margin: 0;
     width: 100px;
     padding: 10px 0 10px 0;
-    border: 1px solid blue;
+    border: 1px solid lightblue;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -80,8 +175,9 @@ div.bottomScroller td {
 </style>
 </head>
     <body>
+        <!-- this is frozen vertically, but moves horizontally via JS -->
         <div class='fixedTop'>
-            <table>
+            <table id='topTable'>
                 <tr>
                     <th> Header 1 </th>
                     <th> Header 2 </th>
@@ -106,6 +202,26 @@ div.bottomScroller td {
                 </tr>
             </table>
         </div>
+        <!-- this is frozen in both directions -->
+        <div class='fixedLeftTop'>
+            <table id='leftTableTop'>
+                <tr>
+                    <th> Header 1 </th>
+                    <th> Header 2 </th>
+                    <th> Header 3 </th>
+                </tr>
+            </table>
+        </div>
+        <div class='fixedLeftScroller'>
+            <table id='leftTableScroller'>
+                <tr>
+                    <td> Body 1 </td>
+                    <td> Body 2 </td>
+                    <td> Body 3 </td>
+                </tr>
+            </table>
+        </div>
+        <!-- this behaves regularly -->
         <div class='bottomScroller'>
             <table id='bottomTable'>
                 <tr>
