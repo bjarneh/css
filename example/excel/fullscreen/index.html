@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Scrollable Table with Fixed Header</title>
+<script src="jquery-latest.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+    var bot = $("#bottomTable");
+    var row = $("#bottomTable tr");
+    for(var i = 0; i < 200; i++){
+        bot.append( row.clone() );
+    }
+    var top = $("div.fixedTop");
+    $(window).on('scroll', function(ev){
+        top.css('left', (window.pageXOffset * -1) + 'px');
+    });
+});
+-->
+</script>
+<style type="text/css">
+<!--
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+div.fixedTop {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 2120px;
+}
+
+div.fixedTop table {
+    border-spacing: 1;
+}
+
+div.fixedTop th {
+    display: inline-block;
+    padding: 10px 0 10px 0;
+    margin: 0;
+    width: 100px;
+    border: 1px solid blue;
+    text-align: center;
+    background-color: cyan;
+    z-index: 200;
+}
+
+div.fixedTop th:hover {
+    background-color: #c99;
+    cursor: pointer;
+}
+
+div.bottomScroller {
+    margin: 41px 0 0 0;
+    padding: 0;
+    width: 100%;
+}
+
+div.bottomScroller table {
+    padding: 0;
+    margin: 0;
+    display: block;
+    width: 2120px;
+}
+
+div.bottomScroller td {
+    margin: 0;
+    width: 100px;
+    padding: 10px 0 10px 0;
+    border: 1px solid blue;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inline-block;
+}
+
+-->
+</style>
+</head>
+    <body>
+        <div class='fixedTop'>
+            <table>
+                <tr>
+                    <th> Header 1 </th>
+                    <th> Header 2 </th>
+                    <th> Header 3 </th>
+                    <th> Header 4 </th>
+                    <th> Header 5 </th>
+                    <th> Header 6 </th>
+                    <th> Header 7 </th>
+                    <th> Header 8 </th>
+                    <th> Header 9 </th>
+                    <th> Header 10 </th>
+                    <th> Header 11 </th>
+                    <th> Header 12 </th>
+                    <th> Header 13 </th>
+                    <th> Header 14 </th>
+                    <th> Header 15 </th>
+                    <th> Header 16 </th>
+                    <th> Header 17 </th>
+                    <th> Header 18 </th>
+                    <th> Header 19 </th>
+                    <th> Header 20 </th>
+                </tr>
+            </table>
+        </div>
+        <div class='bottomScroller'>
+            <table id='bottomTable'>
+                <tr>
+                    <td> Body 1 </td>
+                    <td> Body 2 </td>
+                    <td> Body 3 </td>
+                    <td> Body 4 </td>
+                    <td> Body 5 </td>
+                    <td> Body 6 </td>
+                    <td> Body 7 </td>
+                    <td> Body 8 </td>
+                    <td> Body 9 </td>
+                    <td> Body 10 </td>
+                    <td> Body 11 </td>
+                    <td> Body 12 </td>
+                    <td> Body 13 </td>
+                    <td> Body 14 </td>
+                    <td> Body 15 </td>
+                    <td> Body 16 </td>
+                    <td> Body 17 </td>
+                    <td> Body 18 </td>
+                    <td> Body 19 </td>
+                    <td> Body 20 </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>
