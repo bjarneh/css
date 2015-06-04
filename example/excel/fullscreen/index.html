@@ -5,32 +5,32 @@
 <script src="jquery-latest.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 <!--
+
+
+var activeRow = null;
+var bgChanged = 'lightgreen';
+var bgActive  = 'cyan';
+
+
 $(document).ready(function(){
 
     // add some rows for effect
     var bot = $("#bottomTable");
     var row = $("#bottomTable tr");
 
-    for(var i = 0; i < 250; i++){
+    for(var i = 0; i < 150; i++){
         bot.append( row.clone() );
     }
 
     var left = $("#leftTableScroller");
         row  = $("#leftTableScroller tr");
-    for(var i = 0; i < 250; i++){
+    for(var i = 0; i < 150; i++){
         left.append( row.clone() );
     }
 
 
-    // add header elements to our leftTable
-    /*
-    var leftRow = $("<tr></tr>");
-    var leftTbl = $("#leftTable"); leftTbl.append(leftRow);
-
-    $("#topTable tr>th:lt(3)").each(function(i, e){
-        leftRow.append($(e).clone());
-    });
-    */
+    // mapping from index to true basically..
+    var modifiedRows = {};
 
 
     // keep header in place on horizontal scroll
@@ -44,8 +44,60 @@ $(document).ready(function(){
         lft.css('top', (window.pageYOffset * -1) + lftOrig + 'px');
     });
 
+    $("td").on('click', function(ev){
+        var data = $(this).data('info');
+        if( ! data ){
+            data = {activated: false};
+            $(this).data('info', data);
+        }
+        if( ! data.activated ){
+            var span = $(this).find('span');
+            var input = $(this).find('input');
+            input.detach();
+            input.attr('type', 'text');
+            input[0].isContentEditable = true;
+            span.css('display', 'none');
+            input.insertAfter(span);
+            input.on('input', markModified);
+            data.activated = true;
+            input.focus();
+        }
+        if(activeRow){
+            if(modifiedRows.hasOwnProperty(activeRow)){
+                highlightRow(activeRow, bgChanged);
+            }else{
+                highlightRow(activeRow, '');
+            }
+        }
+        activeRow = $(this).parent()[0].rowIndex;
+        if(activeRow){
+            highlightRow(activeRow, bgActive);
+        }
+    });
+
+    function highlightRow(index, color){
+       var leftRows = $("#leftTableScroller tr");
+       if(leftRows && leftRows.length >= index){
+           $(leftRows[index]).css('background-color', color);
+       }
+       var rightRows = $("#bottomTable tr");
+       if(rightRows && rightRows.length >= index){
+           $(rightRows[index]).css('background-color', color);
+       }
+    }
+
+
+    function markModified(ev){
+        $(this).addClass('changed');
+        var r = $(this).parent().parent();
+        if (r[0] && r[0].rowIndex) {
+            modifiedRows[r[0].rowIndex] = true;
+            highlightRow(r[0].rowIndex, bgChanged);
+        }
+    }
 
 });
+
 -->
 </script>
 <style type="text/css">
@@ -56,8 +108,18 @@ html, body {
 }
 
 table {
+    table-layout: fixed;
     border-collapse: collapse;
     border-spacing: 0;
+}
+
+table span {
+    padding: 0;
+    margin: 0;
+}
+
+.changed {
+    background-color: darkcyan;
 }
 
 /* top row */
@@ -126,24 +188,39 @@ div.fixedLeftScroller table {
     display: block;
 }
 
+div.fixedLeftScroller table tr {
+    background-color: #ffffff;
+}
+
 div.fixedLeftScroller td {
     margin: 0;
     width: 100px;
-    padding: 10px 0 10px 0;
+    /* padding: 10px 0 10px 0; */
+    padding: 0;
     border: 1px solid lightblue;
     white-space: nowrap;
-    text-overflow: ellipsis;
     overflow: hidden;
     display: inline-block;
-    background-color: lightyellow;
+    background-color: transparent;
+}
+div.fixedLeftScroller td input {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+    font-weight: normal;
+    width: 97px;
+    background-color: transparent;
 }
 
+div.fixedLeftScroller td input:focus {
+    background-color: lightgreen;
+}
 
 /* the actual table */
 div.bottomScroller {
     margin: 40px 0 0 0;
     padding: 0;
-    width: 100%;
 }
 
 div.bottomScroller table {
@@ -156,12 +233,24 @@ div.bottomScroller table {
 div.bottomScroller td {
     margin: 0;
     width: 100px;
-    padding: 10px 0 10px 0;
+    /* padding: 10px 0 10px 0; */
+    padding: 0;
     border: 1px solid lightblue;
     white-space: nowrap;
-    text-overflow: ellipsis;
     overflow: hidden;
     display: inline-block;
+}
+div.bottomScroller td input {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+    width: 97px;
+    background-color: transparent;
+    font-weight: normal;
+}
+div.bottomScroller td input:focus {
+    background-color: lightgreen;
 }
 
 -->
@@ -208,9 +297,18 @@ div.bottomScroller td {
         <div class='fixedLeftScroller'>
             <table id='leftTableScroller'>
                 <tr>
-                    <td> Body 1 </td>
-                    <td> Body 2 </td>
-                    <td> Body 3 </td>
+                    <td>
+                        <span>Body 1</span>
+                        <input type='hidden' value='Body 1'/>
+                    </td>
+                    <td>
+                        <span>Body 2</span>
+                        <input type='hidden' value='Body 2'/>
+                    </td>
+                    <td>
+                        <span>Body 3</span>
+                        <input type='hidden' value='Body 3'/>
+                    </td>
                 </tr>
             </table>
         </div>
@@ -218,26 +316,86 @@ div.bottomScroller td {
         <div class='bottomScroller'>
             <table id='bottomTable'>
                 <tr>
-                    <td> Body 1 </td>
-                    <td> Body 2 </td>
-                    <td> Body 3 </td>
-                    <td> Body 4 </td>
-                    <td> Body 5 </td>
-                    <td> Body 6 </td>
-                    <td> Body 7 </td>
-                    <td> Body 8 </td>
-                    <td> Body 9 </td>
-                    <td> Body 10 </td>
-                    <td> Body 11 </td>
-                    <td> Body 12 </td>
-                    <td> Body 13 </td>
-                    <td> Body 14 </td>
-                    <td> Body 15 </td>
-                    <td> Body 16 </td>
-                    <td> Body 17 </td>
-                    <td> Body 18 </td>
-                    <td> Body 19 </td>
-                    <td> Body 20 </td>
+                    <td>
+                        <span>Body 1</span>
+                        <input type='hidden' value='Body 1'/>
+                    </td>
+                    <td>
+                        <span>Body 2</span>
+                        <input type='hidden' value='Body 2'/>
+                    </td>
+                    <td>
+                        <span>Body 3</span>
+                        <input type='hidden' value='Body 3'/>
+                    </td>
+                    <td>
+                        <span>Body 4</span>
+                        <input type='hidden' value='Body 4'/>
+                    </td>
+                    <td>
+                        <span>Body 5</span>
+                        <input type='hidden' value='Body 5'/>
+                    </td>
+                    <td>
+                        <span>Body 6</span>
+                        <input type='hidden' value='Body 6'/>
+                    </td>
+                    <td>
+                        <span>Body 7</span>
+                        <input type='hidden' value='Body 7'/>
+                    </td>
+                    <td>
+                        <span>Body 8</span>
+                        <input type='hidden' value='Body 8'/>
+                    </td>
+                    <td>
+                        <span>Body 9</span>
+                        <input type='hidden' value='Body 9'/>
+                    </td>
+                    <td>
+                        <span>Body 10</span>
+                        <input type='hidden' value='Body 10'/>
+                    </td>
+                    <td>
+                        <span>Body 11</span>
+                        <input type='hidden' value='Body 11'/>
+                    </td>
+                    <td>
+                        <span>Body 12</span>
+                        <input type='hidden' value='Body 12'/>
+                    </td>
+                    <td>
+                        <span>Body 13</span>
+                        <input type='hidden' value='Body 13'/>
+                    </td>
+                    <td>
+                        <span>Body 14</span>
+                        <input type='hidden' value='Body 14'/>
+                    </td>
+                    <td>
+                        <span>Body 15</span>
+                        <input type='hidden' value='Body 15'/>
+                    </td>
+                    <td>
+                        <span>Body 16</span>
+                        <input type='hidden' value='Body 16'/>
+                    </td>
+                    <td>
+                        <span>Body 17</span>
+                        <input type='hidden' value='Body 17'/>
+                    </td>
+                    <td>
+                        <span>Body 18</span>
+                        <input type='hidden' value='Body 18'/>
+                    </td>
+                    <td>
+                        <span>Body 19</span>
+                        <input type='hidden' value='Body 19'/>
+                    </td>
+                    <td>
+                        <span>Body 20</span>
+                        <input type='hidden' value='Body 20'/>
+                    </td>
                 </tr>
             </table>
         </div>
